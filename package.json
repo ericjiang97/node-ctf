@@ -24,7 +24,9 @@
   "homepage": "https://github.com/lorderikir/node-ctf#readme",
   "dependencies": {
     "express": "^4.15.4",
+    "express-basic-auth": "^1.1.1",
     "fs": "^0.0.1-security",
-    "helmet": "^3.8.1"
+    "helmet": "^3.8.1",
+    "http-auth": "^3.2.3"
   }
 }

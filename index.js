@@ -2,13 +2,14 @@ var Express = require('express');
 var random = require("./config/Random");
 var helmet = require('helmet');
 var fs = require('fs');
+var auth = require('http-auth');
 const app = Express();
 
 var phpMode = false
 var Random = random.randomServerXPoweredBy();
 var minutes = 0.5, the_interval = minutes * 60 * 1000;
 setInterval(function() {
-    var Random = random.randomServerXPoweredBy();
+    Random = random.randomServerXPoweredBy();
     if(Random.match("PHP")){
         phpMode = true
     } else {
@@ -28,13 +29,19 @@ function readJsonFileSync(filepath, encoding){
 }
 
 function getConfig(file){
-
     var filepath = __dirname + '/' + file;
     return readJsonFileSync(filepath);
 }
 
 console.log(Random)
 var json = getConfig('package.json')
+
+var basic = auth.basic({
+        realm: "Web."
+    }, function (username, password, callback) { // Custom authentication method.
+        callback(username === "admin" && password === "password");
+    }
+);
 
 app.get('/', function(req, res){
     if(phpMode){
@@ -44,7 +51,7 @@ app.get('/', function(req, res){
 });
 
 
-app.get('/config', function(req,res){
+app.get('/config', auth.connect(basic), (req,res) => {
     res.send(json)
 });
 
