@@ -1,0 +1,28 @@
+{
+  "name": "node-ctf",
+  "version": "0.1.0",
+  "description": "CTF developed for APIs using Node.JS ",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lorderikir/node-ctf.git"
+  },
+  "keywords": [
+    "API",
+    "NodeJS",
+    "CTF"
+  ],
+  "author": "lorderikir",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lorderikir/node-ctf/issues"
+  },
+  "homepage": "https://github.com/lorderikir/node-ctf#readme",
+  "dependencies": {
+    "express": "^4.15.4"
+  }
+}
