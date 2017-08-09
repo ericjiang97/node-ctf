@@ -5,6 +5,10 @@ var fs = require('fs');
 var auth = require('http-auth');
 const app = Express();
 
+var adminConfig = {
+    "adminUserName": "admin",
+    "password": "password"
+}
 var phpMode = false
 var Random = random.randomServerXPoweredBy();
 var minutes = 0.5, the_interval = minutes * 60 * 1000;
@@ -39,7 +43,7 @@ var json = getConfig('package.json')
 var basic = auth.basic({
         realm: "Web."
     }, function (username, password, callback) { // Custom authentication method.
-        callback(username === "admin" && password === "password");
+        callback(username === adminConfig.adminUserName && password === adminConfig.password);
     }
 );
 
@@ -50,6 +54,11 @@ app.get('/', function(req, res){
     res.send('Hello World!');
 });
 
+app.get('/password', function(req, res){
+    if(req.query.forget == true){   
+        res.send(adminConfig)
+    }
+});
 
 app.get('/config', auth.connect(basic), (req,res) => {
     res.send(json)
@@ -57,6 +66,11 @@ app.get('/config', auth.connect(basic), (req,res) => {
 
 app.get('/index.php', function(req, res){
     res.send('Hello World!');
+});
+
+
+app.get('*', function(req, res){
+    res.status(404).send("Unknown Route")
 });
 
 app.listen(4000, function () {
