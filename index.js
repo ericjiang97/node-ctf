@@ -1,12 +1,22 @@
 var Express = require('express');
-var Random = require("./config/Random");
+var random = require("./config/Random");
 var helmet = require('helmet');
 var fs = require('fs');
 const app = Express();
 
-
-var Random = Random.randomServerXPoweredBy();
 var phpMode = false
+var Random = random.randomServerXPoweredBy();
+var minutes = 0.5, the_interval = minutes * 60 * 1000;
+setInterval(function() {
+    var Random = random.randomServerXPoweredBy();
+    if(Random.match("PHP")){
+        phpMode = true
+    } else {
+        phpMode = false
+    }
+    app.use(helmet.hidePoweredBy({ setTo: Random }));
+}, the_interval);
+
 
 function readJsonFileSync(filepath, encoding){
 
@@ -25,10 +35,6 @@ function getConfig(file){
 
 console.log(Random)
 var json = getConfig('package.json')
-if(Random.match("PHP")){
-    phpMode = true
-}
-app.use(helmet.hidePoweredBy({ setTo: Random }));
 
 app.get('/', function(req, res){
     if(phpMode){

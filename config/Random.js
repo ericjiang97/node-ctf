@@ -16,17 +16,6 @@ const serverList = [
     'PHP 5.4.20',
     'PHP 5.4.37', 
 ]
-
-const server = [
-    'ASP.NET',
-    'Apache Tomcat/',
-    'Microsoft-ISS/',
-    'Hapi',
-    'ExpressJS',
-    'Pleslin',
-    'PHP'
-]
-
 module.exports = {
     randomServer: function(){
         console.log('[random.js]: Choosing random number to spoof identity'.green)
@@ -41,8 +30,10 @@ module.exports = {
         return {'server': server[randomNumber], 'versionNumber': randomVersionNumber}
     },
     randomServerXPoweredBy: function(){
-        console.log('[random.js]: Choosing random number to spoof identity'.green)
+        console.log('[random.js]: Choosing random number to spoof identity')
         var randomNumber = Math.floor(Math.random() * (serverList.length - 0 + 1)) + 0;
-        return serverList[randomNumber]
+        var randomServer = serverList[randomNumber]
+        console.log('[random.js]: Choosing '+ randomServer)
+        return randomServer
     }
 }
