@@ -3,6 +3,7 @@ var random = require("./config/Random");
 var helmet = require('helmet');
 var fs = require('fs');
 var auth = require('http-auth');
+var path = require('path');
 const app = Express();
 
 var adminConfig = {
@@ -14,7 +15,7 @@ var Random = random.randomServerXPoweredBy();
 var minutes = 0.5, the_interval = minutes * 60 * 1000;
 setInterval(function() {
     Random = random.randomServerXPoweredBy();
-    if(Random.match("PHP")){
+    if(Random.match("PHP")!== null){
         phpMode = true
     } else {
         phpMode = false
@@ -68,6 +69,9 @@ app.get('/index.php', function(req, res){
     res.send('Hello World!');
 });
 
+app.get('/phpmyadmin', function(req, res){
+     res.sendFile(path.join(__dirname + '/invalid.html'));
+})
 
 app.get('*', function(req, res){
     res.status(404).send("Unknown Route")
